@@ -74,7 +74,7 @@ class ReassignPartitionsClusterTest extends ZooKeeperTestHarness with Logging {
     ), servers = servers)
 
     //When rebalancing
-    val newAssignment = ReassignPartitionsCommand.generateAssignment(zkUtils, brokers, json(topicName), true)._1
+    val newAssignment = ReassignPartitionsCommand.generateAssignment(zkUtils, brokers, json(topicName), true, None)._1
     ReassignPartitionsCommand.executeAssignment(zkUtils, ZkUtils.formatAsReassignmentJson(newAssignment))
     waitForReassignmentToComplete()
 
@@ -95,7 +95,7 @@ class ReassignPartitionsClusterTest extends ZooKeeperTestHarness with Logging {
     ), servers = servers)
 
     //When rebalancing
-    val newAssignment = ReassignPartitionsCommand.generateAssignment(zkUtils, Array(100, 101), json(topicName), true)._1
+    val newAssignment = ReassignPartitionsCommand.generateAssignment(zkUtils, Array(100, 101), json(topicName), true, None)._1
     ReassignPartitionsCommand.executeAssignment(zkUtils, ZkUtils.formatAsReassignmentJson(newAssignment))
     waitForReassignmentToComplete()
 
@@ -158,7 +158,7 @@ class ReassignPartitionsClusterTest extends ZooKeeperTestHarness with Logging {
     assertEquals(expectedDurationSecs, numMessages * msgSize / initialThrottle)
 
     //Start rebalance which will move replica on 100 -> replica on 102
-    val newAssignment = ReassignPartitionsCommand.generateAssignment(zkUtils, Array(101, 102), json(topicName), true)._1
+    val newAssignment = ReassignPartitionsCommand.generateAssignment(zkUtils, Array(101, 102), json(topicName), true, None)._1
 
     val start = System.currentTimeMillis()
     ReassignPartitionsCommand.executeAssignment(zkUtils, ZkUtils.formatAsReassignmentJson(newAssignment), initialThrottle)
@@ -238,7 +238,7 @@ class ReassignPartitionsClusterTest extends ZooKeeperTestHarness with Logging {
     produceMessages(servers, topicName, numMessages = 200, acks = 0, valueBytes = 100 * 1000)
 
     //Start rebalance
-    val newAssignment = ReassignPartitionsCommand.generateAssignment(zkUtils, Array(101, 102), json(topicName), true)._1
+    val newAssignment = ReassignPartitionsCommand.generateAssignment(zkUtils, Array(101, 102), json(topicName), true, None)._1
 
     ReassignPartitionsCommand.executeAssignment(zkUtils, ZkUtils.formatAsReassignmentJson(newAssignment), initialThrottle)
 

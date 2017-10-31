@@ -136,7 +136,7 @@ object ReplicationQuotasTestRig {
       }
 
       println("Starting Reassignment")
-      val newAssignment = ReassignPartitionsCommand.generateAssignment(zkUtils, brokers, json(topicName), true)._1
+      val newAssignment = ReassignPartitionsCommand.generateAssignment(zkUtils, brokers, json(topicName), true, None)._1
 
       val start = System.currentTimeMillis()
       ReassignPartitionsCommand.executeAssignment(zkUtils, ZkUtils.formatAsReassignmentJson(newAssignment), config.throttle)

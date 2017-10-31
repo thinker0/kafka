@@ -36,7 +36,7 @@ class ReassignPartitionsIntegrationTest extends ZooKeeperTestHarness with RackAw
 
     val topicJson = """{"topics": [{"topic": "foo"}], "version":1}"""
     val (proposedAssignment, currentAssignment) = ReassignPartitionsCommand.generateAssignment(zkUtils,
-      rackInfo.keys.toSeq.sorted, topicJson, disableRackAware = false)
+      rackInfo.keys.toSeq.sorted, topicJson, disableRackAware = false, None)
 
     val assignment = proposedAssignment map { case (topicPartition, replicas) =>
       (topicPartition.partition, replicas)
